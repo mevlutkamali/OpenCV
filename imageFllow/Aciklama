@@ -1,0 +1,31 @@
+Bu Python kodu, OpenCV (Open Source Computer Vision Library) kullanarak bir video dosyasından arabaları algılayan ve bu arabaların etrafına kareler çizen bir programı uygular. İşte kodun ayrıntılı açıklaması:
+
+1. İlk olarak, OpenCV kütüphanesini içe aktarır ve "cars.mp4" adlı bir video dosyasını açar.
+
+2. Ardından, bir arka plan çıkarıcı oluşturur. `cv2.createBackgroundSubtractorMOG2()` işlevi, görüntüler arasındaki farkları kullanarak arka planı çıkaran bir algoritma sağlar. `detectShadows` parametresi, gölgeleri algılayıp algılamayacağını belirtir, burada `False` olarak ayarlanmıştır.
+
+3. Sonsuz bir döngü (while) başlatılır. Bu döngü video çerçevelerini okuyarak işleme yapar.
+
+4. `cap.read()` işlevi ile bir sonraki video çerçevesi okunur ve `frame` değişkenine atanır.
+
+5. `background.apply(frame)` işlemi, mevcut çerçeveden arka planı çıkarır ve sonucu `backgroundMask` adlı bir maske olarak saklar.
+
+6. `cv2.medianBlur(backgroundMask, 3)` işlemi, maskeye bir medyan bulanıklığı uygular. Bu, gürültüyü azaltmaya yardımcı olur.
+
+7. Ardından, `cv2.findContours()` işlevi kullanılarak maske üzerindeki cisimleri algılar. Bu işlem, maske üzerindeki yüzeyleri belirler ve bunları `contours` ve `hierarchy` değişkenlerine saklar.
+
+8. Bir döngü kullanılarak, algılanan her konturu işler. Burada, konturun alanı 1000 pikselden küçükse, yani çok küçükse, algılamayı atlar.
+
+9. Algılanan cisimlerin etrafına bir dikdörtgen çizmek için `cv2.rectangle()` işlevi kullanılır. Bu şekilde arabaların etrafına kareler çizilir.
+
+10. `backgroundMask` ve orijinal `frame` görüntüleri farklı boyutlarda olabilir, bu nedenle bu görüntüleri yeniden boyutlandırarak, daha küçük bir pencerede görüntülenmesini sağlar.
+
+11. Son olarak, `cv2.imshow()` işlevi kullanılarak iki pencere oluşturur: biri arka plan maskesi (`'cameraRecord'`) ve diğeri orijinal çerçeve (`'cameraRecord1'`) için. Bu pencerelerde çıktıları gösterir.
+
+12. Bir tuşa basılmasını bekler (`cv2.waitKey(1) & 0xff`) ve "Esc" tuşuna basıldığında döngüyü kırar ve programı sonlandırır.
+
+13. Video akışını serbest bırakır (`cap.release()`) ve tüm penceleri kapatır (`cv2.destroyAllWindows()`).
+
+14. Son olarak, "Finish..." yazdırılır ve program tamamlanır.
+
+Bu kod, video üzerinde hareket algılamak ve algılanan nesneleri vurgulamak için kullanılabilir. Özellikle trafik kameraları veya güvenlik kameraları gibi uygulamalarda arabaların algılanması için kullanılabilir.
